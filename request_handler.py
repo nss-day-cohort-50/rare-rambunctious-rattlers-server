@@ -92,27 +92,19 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(response.encode())
 
-def do_POST(self):
+    def do_POST(self):
         self._set_headers(201)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
 
-#         # Convert JSON string to a Python dictionary
         post_body = json.loads(post_body)
 
-        # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
-        # Initialize new entry
         new_user = None
         
-
-        # Add a new entry to the list. Don't worry about
-        # the orange squiggle, you'll define the create_entry
-        # function next.
-        if resource == "entries":
+        if resource == "users":
             new_user = create_user(post_body)
-        # Encode the new entry and send in response
             self.wfile.write(f"{create_user}".encode())
 
 
