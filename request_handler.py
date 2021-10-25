@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from User import create_user, get_all_users
+from User import create_user, get_all_users, get_single_user
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -13,7 +13,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if "?" in resource:
 
-            param = resource.split("?")[1]  
+            param = resource.split("?")[1]  # example: http://localhost:8088/animals?status=Treatment
             resource = resource.split("?")[0]  
             pair = param.split("=")  
             key = pair[0]  
@@ -92,28 +92,28 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(response.encode())
 
-def do_POST(self):
-        self._set_headers(201)
-        content_len = int(self.headers.get('content-length', 0))
-        post_body = self.rfile.read(content_len)
+    def do_POST(self):
+            self._set_headers(201)
+            content_len = int(self.headers.get('content-length', 0))
+            post_body = self.rfile.read(content_len)
 
-#         # Convert JSON string to a Python dictionary
-        post_body = json.loads(post_body)
+    #         # Convert JSON string to a Python dictionary
+            post_body = json.loads(post_body)
 
-        # Parse the URL
-        (resource, id) = self.parse_url(self.path)
+            # Parse the URL
+            (resource, id) = self.parse_url(self.path)
 
-        # Initialize new entry
-        new_user = None
-        
+            # Initialize new entry
+            new_user = None
+            
 
-        # Add a new entry to the list. Don't worry about
-        # the orange squiggle, you'll define the create_entry
-        # function next.
-        if resource == "entries":
-            new_user = create_user(post_body)
-        # Encode the new entry and send in response
-            self.wfile.write(f"{create_user}".encode())
+            # Add a new entry to the list. Don't worry about
+            # the orange squiggle, you'll define the create_entry
+            # function next.
+            if resource == "entries":
+                new_user = create_user(post_body)
+            # Encode the new entry and send in response
+                self.wfile.write(f"{create_user}".encode())
 
 
 # This function is not inside the class. It is the starting
