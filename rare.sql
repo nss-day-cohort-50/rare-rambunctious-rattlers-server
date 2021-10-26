@@ -31,3 +31,8 @@ CREATE TABLE "Categories" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "label" varchar
 );
+
+insert into 'Posts' values (null, 'Thanks, Trey', '10/25/21', 'Your CSS is p cool, too', 1, 1) 
+
+
+
