@@ -34,6 +34,25 @@ CREATE TABLE "Categories" (
 
 insert into 'Posts' values (null, 'Thanks, Trey', '10/25/21', 'Your CSS is p cool, too', 1, 1) 
 
-SELECT *
-FROM Users
+insert into 'Categories' values (null, 'Hello!') 
 
+SELECT 
+            p.id,
+            p.title,
+            p.publication_date,
+            p.content,
+            p.user_id,
+            p.category_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.username,
+            u.created_on,
+            u.active,
+            c.label
+        from Posts p
+        left join Users u
+            on p.user_id = u.id
+        left join Categories c
+            on c.id = p.category_id
