@@ -1,7 +1,7 @@
 import sqlite3
 import json
 import datetime
-from models import Post
+from models import Post, User, Category
 
 def get_all_posts():
     # Open a connection to the database
@@ -19,13 +19,21 @@ def get_all_posts():
             p.publication_date,
             p.content,
             p.user_id,
-            p.category_id
+            p.category_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.username,
+            u.created_on,
+            u.active,
+            c.label
         from Posts p
+        left join Users u
+            on p.user_id = u.id
+        left join Categories c
+            on c.id = p.category_id
         """)
-
-
-
-        
 
         # Initialize an empty list to hold all entry representations
         posts = []
@@ -49,6 +57,22 @@ def get_all_posts():
                 row['category_id']
             )
 
+            user = User(row['user_id'],
+                row['first_name'],
+                row['last_name'],
+                row['email'],
+                row['bio'],
+                row['username'],
+                row['created_on'],
+                row['active']
+            )
+
+            category = Category(row['category_id'],
+                row['label']
+            )
+
+            post.user = user.__dict__
+            post.category = category.__dict__
             posts.append(post.__dict__)
 
     # Use `json` package to properly serialize list as JSON
