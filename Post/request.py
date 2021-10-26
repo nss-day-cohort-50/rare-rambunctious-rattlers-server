@@ -53,3 +53,30 @@ def get_all_posts():
 
     # Use `json` package to properly serialize list as JSON
     return json.dumps(posts)
+
+def get_single_post(id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            p.id,
+            p.title,
+            p.publication_date,
+            p.content,
+            p.user_id,
+            p.category_id
+        from Posts p
+        WHERE p.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an entry instance from the current row
+        post = Post(data['id'], data['title'], data['publication_date'], data['content'],
+                            data['user_id'], data['category_id'])
+        return json.dumps(post.__dict__)
