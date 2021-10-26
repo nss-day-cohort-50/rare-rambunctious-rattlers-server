@@ -56,6 +56,37 @@ def get_all_users():
     # Use `json` package to properly serialize list as JSON
     return json.dumps(entries)
 
+def get_single_user(id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.username,
+            u.password,
+            u.created_on,
+            u.active
+        from Users u
+        WHERE u.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an entry instance from the current row
+        user = User(data['id'], data['first_name'], data['last_name'], data['email'],
+                            data['bio'], data['username'], data['password'], data['created_on'], data['active'])
+        return json.dumps(user.__dict__)
+
+
 def create_user(new_user):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
