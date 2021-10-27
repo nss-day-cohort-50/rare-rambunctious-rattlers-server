@@ -121,11 +121,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = create_user(post_body)
             elif resource == "login":
                 res = user_login(post_body)
-            # Encode the new entry and send in response
-                self.wfile.write(res.encode())
             elif resource == "categories":
                 res = add_category(post_body)
-
+            # Encode the new entry and send in response
                 self.wfile.write(res.encode())
 
 # This function is not inside the class. It is the starting
