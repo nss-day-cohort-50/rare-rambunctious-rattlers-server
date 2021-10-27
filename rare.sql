@@ -32,9 +32,9 @@ CREATE TABLE "Categories" (
   "label" varchar
 );
 
-insert into 'Posts' values (null, 'Thanks, Trey', '10/25/21', 'Your CSS is p cool, too', 1, 1) 
+insert into 'Posts' values (null, 'Happy Halloween', '10/25/21', 'i love halloween', 1, 1) 
 
-insert into 'Categories' values (null, 'Hello!') 
+insert into 'Categories' values (null, 'Hello-ween!') 
 
 SELECT 
             p.id,
@@ -56,3 +56,6 @@ SELECT
             on p.user_id = u.id
         left join Categories c
             on c.id = p.category_id
+
+
+SELECT * from Users
