@@ -1,7 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from User import create_user, get_all_users, get_single_user
+from User import create_user, get_all_users, get_single_user, user_login
 from Post import get_all_posts, get_single_post
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -120,6 +119,10 @@ class HandleRequests(BaseHTTPRequestHandler):
             # Encode the new entry and send in response
                 self.wfile.write(f"{res}".encode())
 
+            elif resource == "login":
+                res = user_login(post_body)
+            # Encode the new entry and send in response
+                self.wfile.write(res.encode())
 
 # This function is not inside the class. It is the starting
 # point of this application.
