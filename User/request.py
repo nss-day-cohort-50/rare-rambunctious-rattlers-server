@@ -113,11 +113,8 @@ def create_user(new_user):
         else:
             res['message'] = 'User email already exists'
         
-<<<<<<< HEAD
         return json.dumps(res)
-=======
 
-        return json.dumps(new_user)
 
 # Should we pass in input from browser as param?
 def user_login(user_input): 
@@ -150,4 +147,3 @@ def user_login(user_input):
 
 
 
->>>>>>> main
