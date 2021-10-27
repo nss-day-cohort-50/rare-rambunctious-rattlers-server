@@ -56,3 +56,6 @@ SELECT
             on p.user_id = u.id
         left join Categories c
             on c.id = p.category_id
+
+
+SELECT * from Users
