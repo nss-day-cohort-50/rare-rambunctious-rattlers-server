@@ -146,3 +146,4 @@ cython_debug/
 *.db
 .vscode
 __pycache__
+rare.sql
