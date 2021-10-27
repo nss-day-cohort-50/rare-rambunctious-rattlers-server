@@ -97,10 +97,11 @@ def get_single_post(id):
             u.first_name,
             u.last_name,
             u.email,
-            u.bio,
             u.username,
-            u.created_on,
+            u.password,
+            u.bio,
             u.active,
+            u.created_on,
             c.label
         from Posts p
         left join Users u
@@ -123,17 +124,18 @@ def get_single_post(id):
             data['category_id']
         )
 
-        user = User(row['user_id'],
+        user = User(data['user_id'],
             data['first_name'],
             data['last_name'],
             data['email'],
-            data['bio'],
             data['username'],
-            data['created_on'],
-            data['active']
-        )
+            '',
+            data['bio'],
+            data['active'],  
+            data['created_on']
+            )
 
-        category = Category(row['category_id'],
+        category = Category(data['category_id'],
             data['label']
         )
 
