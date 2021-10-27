@@ -93,8 +93,21 @@ def get_single_post(id):
             p.publication_date,
             p.content,
             p.user_id,
-            p.category_id
+            p.category_id,  
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.username,
+            u.password,
+            u.bio,
+            u.active,
+            u.created_on,
+            c.label
         from Posts p
+        left join Users u
+            on p.user_id = u.id
+        left join Categories c
+            on c.id = p.category_id 
         WHERE p.id = ?
         """, ( id, ))
 
@@ -102,6 +115,31 @@ def get_single_post(id):
         data = db_cursor.fetchone()
 
         # Create an entry instance from the current row
-        post = Post(data['id'], data['title'], data['publication_date'], data['content'],
-                            data['user_id'], data['category_id'])
-        return json.dumps(post.__dict__)
+        post = Post(
+            data['id'], 
+            data['title'], 
+            data['publication_date'], 
+            data['content'],
+            data['user_id'], 
+            data['category_id']
+        )
+
+        user = User(data['user_id'],
+            data['first_name'],
+            data['last_name'],
+            data['email'],
+            data['username'],
+            '',
+            data['bio'],
+            data['active'],  
+            data['created_on']
+            )
+
+        category = Category(data['category_id'],
+            data['label']
+        )
+
+        post.user = user.__dict__
+        post.category = category.__dict__
+
+        return json.dumps(post.__dict__)   
