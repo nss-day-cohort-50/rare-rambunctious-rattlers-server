@@ -92,10 +92,20 @@ def get_single_post(id):
             p.publication_date,
             p.content,
             p.user_id,
-            p.category_id   
+            p.category_id,  
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.username,
+            u.created_on,
+            u.active,
+            c.label
         from Posts p
         left join Users u
-            on p.user_id = u.id    
+            on p.user_id = u.id
+        left join Categories c
+            on c.id = p.category_id 
         WHERE p.id = ?
         """, ( id, ))
 
@@ -112,10 +122,21 @@ def get_single_post(id):
             data['category_id']
         )
 
-        user = User(row['user_id']
+        user = User(row['user_id'],
+            data['first_name'],
+            data['last_name'],
+            data['email'],
+            data['bio'],
+            data['username'],
+            data['created_on'],
+            data['active']
         )
 
-        post.user = user.__dict__        <-----
-        posts.append(post.__dict__)     <-----
+        category = Category(row['category_id'],
+            data['label']
+        )
+
+        post.user = user.__dict__
+        post.category = category.__dict__
 
         return json.dumps(post.__dict__)   
