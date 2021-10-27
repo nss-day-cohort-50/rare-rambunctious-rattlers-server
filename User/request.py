@@ -44,11 +44,11 @@ def get_all_users():
                 row['first_name'], 
                 row['last_name'], 
                 row['email'], 
-                row['bio'], 
                 row['username'], 
                 row['password'], 
-                row['created_on'], 
-                row['active']
+                row['bio'], 
+                row['active'],
+                row['created_on']
             )
 
             entries.append(user.__dict__)
