@@ -58,4 +58,4 @@ SELECT
             on c.id = p.category_id
 
 
-SELECT * from Users
+SELECT * from Tags
