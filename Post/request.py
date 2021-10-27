@@ -61,10 +61,11 @@ def get_all_posts():
                 row['first_name'],
                 row['last_name'],
                 row['email'],
-                row['bio'],
                 row['username'],
-                row['created_on'],
-                row['active']
+                '',
+                row['bio'],
+                row['active'],
+                row['created_on']  
             )
 
             category = Category(row['category_id'],
