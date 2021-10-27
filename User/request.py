@@ -44,11 +44,11 @@ def get_all_users():
                 row['first_name'], 
                 row['last_name'], 
                 row['email'], 
-                row['bio'], 
                 row['username'], 
                 row['password'], 
-                row['created_on'], 
-                row['active']
+                row['bio'], 
+                row['active'],
+                row['created_on']
             )
 
             entries.append(user.__dict__)
@@ -90,28 +90,31 @@ def get_single_user(id):
 def create_user(new_user):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
+        res = {}
+        db_cursor.execute('''
+        SELECT
+           *
+        FROM Users u
+        WHERE u.email = ?
+        ''', ( new_user['email'], ))
 
-        db_cursor.execute("""
-        insert into Users
-            ( first_name, last_name, email, bio, username, password, created_on, active )
-        values
-            (?, ?, ?, ?, ?, ?, ?, ?);
-        """, (new_user['first_name'], new_user['last_name'],new_user['email'], new_user['bio'], new_user['username'], new_user['password'], datetime.datetime.now(), new_user['active'] ))
-
-
-        # The `lastrowid` property on the cursor will return
-        # the primary key of the last thing that got added to
-        # the database.
-        id = db_cursor.lastrowid
-
-        # Add the `id` property to the employee dictionary that
-        # was sent by the client so that the client sees the
-        # primary key in the response.
-        new_user['id'] = id
-
+        dataset = db_cursor.fetchall()
+        if not dataset:
+            db_cursor.execute("""
+            insert into Users
+                ( first_name, last_name, email, username, password, bio, active, created_on )
+            values
+                (?, ?, ?, ?, ?, ?, ?, ?);
+            """, (new_user['first_name'], new_user['last_name'],new_user['email'], new_user['username'], new_user['password'], new_user['bio'], new_user['active'], datetime.datetime.now() ))
+            
+            id = db_cursor.lastrowid
+            res['token'] = id
+            res['valid'] = True
+        else:
+            res['message'] = 'User email already exists'
         
+        return json.dumps(res)
 
-        return json.dumps(new_user)
 
 # Should we pass in input from browser as param?
 def user_login(user_input): 

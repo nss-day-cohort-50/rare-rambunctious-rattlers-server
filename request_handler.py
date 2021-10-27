@@ -102,7 +102,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             content_len = int(self.headers.get('content-length', 0))
             post_body = self.rfile.read(content_len)
 
-    #         # Convert JSON string to a Python dictionary
+            # Convert JSON string to a Python dictionary
             post_body = json.loads(post_body)
 
             # Parse the URL
@@ -110,14 +110,19 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             # Initialize new entry
             res = None
-
+            
             # Add a new entry to the list. Don't worry about
             # the orange squiggle, you'll define the create_entry
             # function next.
-            if resource == "login":
+            if resource == "register":
+                res = create_user(post_body)
+            # Encode the new entry and send in response
+                self.wfile.write(f"{res}".encode())
+
+            elif resource == "login":
                 res = user_login(post_body)
             # Encode the new entry and send in response
-            self.wfile.write(res.encode())
+                self.wfile.write(res.encode())
 
 # This function is not inside the class. It is the starting
 # point of this application.
