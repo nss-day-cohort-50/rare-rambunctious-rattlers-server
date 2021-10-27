@@ -34,7 +34,7 @@ CREATE TABLE "Categories" (
 
 insert into 'Posts' values (null, 'Happy Halloween', '10/25/21', 'i love halloween', 1, 1) 
 
-insert into 'Categories' values (null, 'Hello-ween!') 
+insert into 'Categories' values (null, 'David S. Pumpkins'); 
 
 SELECT 
             p.id,
@@ -58,4 +58,4 @@ SELECT
             on c.id = p.category_id
 
 
-SELECT * from Users
+SELECT * from Categories
