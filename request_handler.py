@@ -1,7 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from User import create_user, get_all_users, get_single_user
+from User import create_user, get_all_users, get_single_user, user_login
 from Post import get_all_posts, get_single_post
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -110,17 +109,15 @@ class HandleRequests(BaseHTTPRequestHandler):
             (resource, id) = self.parse_url(self.path)
 
             # Initialize new entry
-            new_user = None
-            
+            res = None
 
             # Add a new entry to the list. Don't worry about
             # the orange squiggle, you'll define the create_entry
             # function next.
-            if resource == "entries":
-                new_user = create_user(post_body)
+            if resource == "login":
+                res = user_login(post_body)
             # Encode the new entry and send in response
-                self.wfile.write(f"{create_user}".encode())
-
+            self.wfile.write(res.encode())
 
 # This function is not inside the class. It is the starting
 # point of this application.
