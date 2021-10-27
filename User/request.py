@@ -102,10 +102,10 @@ def create_user(new_user):
         if not dataset:
             db_cursor.execute("""
             insert into Users
-                ( first_name, last_name, email, username, password, created_on )
+                ( first_name, last_name, email, username, password, bio, active, created_on )
             values
-                (?, ?, ?, ?, ?, ?);
-            """, (new_user['first_name'], new_user['last_name'],new_user['email'], new_user['username'], new_user['password'], datetime.datetime.now() ))
+                (?, ?, ?, ?, ?, ?, ?, ?);
+            """, (new_user['first_name'], new_user['last_name'],new_user['email'], new_user['username'], new_user['password'], new_user['bio'], new_user['active'], datetime.datetime.now() ))
             
             id = db_cursor.lastrowid
             res['token'] = id
