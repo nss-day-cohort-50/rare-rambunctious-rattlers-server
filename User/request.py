@@ -112,3 +112,35 @@ def create_user(new_user):
         
 
         return json.dumps(new_user)
+
+# Should we pass in input from browser as param?
+def user_login(user_input): 
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        res = {}
+        db_cursor.execute("""
+        SELECT 
+            u.email, 
+            u.password, 
+            u.id
+        FROM Users u 
+        WHERE u.email = ? AND u.password = ?
+        """, (user_input['username'], user_input['password'], ))
+
+        data = db_cursor.fetchone()
+        if data:
+            id = data[2]
+            res['valid'] = True
+            res['token'] = id
+
+            return json.dumps(res)
+
+        else:
+            res['valid'] = False
+            return json.dumps(res)
+       
+
+
+
+
