@@ -91,7 +91,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             elif resource == "categories":
                     response = f"{get_all_categories()}"
 
-            self.wfile.write(response.encode())
 
         elif len(parsed) == 3:
             ( resource, key, value ) = parsed
