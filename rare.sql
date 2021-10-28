@@ -32,7 +32,7 @@ CREATE TABLE "Categories" (
   "label" varchar
 );
 
-insert into 'Posts' values (null, 'Happy Halloween', '10/25/21', 'i love halloween', 1, 1) 
+insert into 'Posts' values (null, 'fallll', '09/27/21', 'it fall', 1, 1); 
 
 insert into 'Categories' values (null, 'David S. Pumpkins'); 
 
@@ -58,4 +58,12 @@ SELECT
             on c.id = p.category_id
 
 
-SELECT * from Categories
+SELECT * from Posts
+
+UPDATE publication_date 
+  WHERE id=1 
+
+
+  UPDATE Posts SET publication_date = "2021-08-21"
+WHERE id = 4;
+

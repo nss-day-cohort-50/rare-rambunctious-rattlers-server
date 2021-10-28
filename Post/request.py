@@ -33,6 +33,7 @@ def get_all_posts():
             on p.user_id = u.id
         left join Categories c
             on c.id = p.category_id
+        ORDER BY cast(p.publication_date as date(1)) DESC
         """)
 
         # Initialize an empty list to hold all entry representations
