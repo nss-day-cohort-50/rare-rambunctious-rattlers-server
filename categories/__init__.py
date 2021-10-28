@@ -1,1 +1,1 @@
-from .request import add_category, delete_category, get_all_categories
+from .request import add_category, delete_category, get_all_categories, update_category, get_category_by_id

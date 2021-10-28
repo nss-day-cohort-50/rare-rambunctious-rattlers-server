@@ -1,9 +1,10 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
+from Post import get_all_posts, get_single_post
+from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
 from Post import get_all_posts, get_single_post, create_post
 from Tag import get_all_tags
-from categories import add_category, delete_category, get_all_categories
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -92,7 +93,10 @@ class HandleRequests(BaseHTTPRequestHandler):
             elif resource == "tags":
                 response = f"{get_all_tags()}"
             elif resource == "categories":
-                response = f"{get_all_categories()}"
+                if id is not None:
+                    response = f"{get_category_by_id(id)}"
+                else:
+                    response = f"{get_all_categories()}"
 
 
         elif len(parsed) == 3:
@@ -130,12 +134,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             elif resource == "posts":
                 res = create_post(post_body)
             # Encode the new entry and send in response
-<<<<<<< HEAD
             self.wfile.write(res.encode())
-# This function is not inside the class. It is the starting
-# point of this application.
-=======
-                self.wfile.write(res.encode())
+
 
     def do_DELETE(self):
     # Set a 204 response code
@@ -148,7 +148,26 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "categories":
             delete_category(id)
 
->>>>>>> main
+    def do_PUT(self):
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "categories":
+            success = update_category(id, post_body)
+            
+            if success:
+                self._set_headers(204)
+            else:
+                self._set_headers(404)
+
+        self.wfile.write("".encode())
+
+
 def main():
     """Starts the server on port 8088 using the HandleRequests class
     """
