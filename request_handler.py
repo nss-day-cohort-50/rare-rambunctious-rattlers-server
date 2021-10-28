@@ -5,6 +5,7 @@ from Post import get_all_posts, get_single_post
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
 from Post import get_all_posts, get_single_post, create_post
 from Tag import get_all_tags
+from comments import get_comments_by_post, create_comment, get_all_comments
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -92,6 +93,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_posts()}"
             elif resource == "tags":
                 response = f"{get_all_tags()}"
+            elif resource == "comments":
+                response = f"{get_all_comments()}"
             elif resource == "categories":
                 if id is not None:
                     response = f"{get_category_by_id(id)}"
@@ -102,8 +105,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         elif len(parsed) == 3:
             ( resource, key, value ) = parsed
 
-            if key == "q" and resource == 'entries':
-                response = get_entries_by_search_term(value)
+            if key == "q" and resource == 'comments':
+                response = get_comments_by_post(value)
 
 
         self.wfile.write(response.encode())
@@ -133,6 +136,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = add_category(post_body)
             elif resource == "posts":
                 res = create_post(post_body)
+            elif resource == "comments":
+                res = create_comment(post_body)
             # Encode the new entry and send in response
             self.wfile.write(res.encode())
 
