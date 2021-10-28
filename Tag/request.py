@@ -10,6 +10,7 @@ def get_all_tags():
         db_cursor.execute("""
         SELECT *
         FROM Tags
+        ORDER BY label ASC
         """)
 
         tags = []
@@ -38,9 +39,9 @@ def update_tag(id, new_tag):
 
 def delete_tag(id):
     with sqlite3.connect("./rare.db") as conn:
-    db_cursor = conn.cursor()
+        db_cursor = conn.cursor()
 
-    db_cursor.execute("""
-    DELETE FROM Tags
-    WHERE id = ?
-    """, (id, ))
+        db_cursor.execute("""
+        DELETE FROM Tags
+        WHERE id = ?
+        """, (id, ))

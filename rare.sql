@@ -31,6 +31,10 @@ CREATE TABLE "Categories" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "label" varchar
 );
+CREATE TABLE "Tags" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "label" varchar
+);
 
 insert into 'Posts' values (null, 'Happy Halloween', '10/25/21', 'i love halloween', 1, 1) 
 
@@ -59,3 +63,7 @@ SELECT
 
 
 SELECT * from Tags
+
+INSERT INTO Tags VALUES (null, 'Python');
+INSERT INTO Tags VALUES (null, 'React');
+INSERT INTO Tags VALUES (null, 'CSS');
