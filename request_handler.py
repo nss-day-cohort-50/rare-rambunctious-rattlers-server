@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
 from Post import get_all_posts, get_single_post
-from categories import add_category, delete_category, get_all_categories, update_category
+from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -89,6 +89,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = f"{get_all_posts()}"
             elif resource == "categories":
+                if id is not None:
+                    response = f"{get_category_by_id(id)}"
+                else:
                     response = f"{get_all_categories()}"
 
 
