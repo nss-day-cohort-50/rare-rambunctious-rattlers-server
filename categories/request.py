@@ -54,3 +54,16 @@ def delete_category(id):
         DELETE FROM Categories
         WHERE id = ?
         """, (id, ))
+
+def update_category(id, updated_category):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        update Categories
+            set
+                label = ?
+        where id = ?
+        """, (updated_category['label'], id ))
+
+        return json.dumps(updated_category)

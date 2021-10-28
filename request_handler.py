@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
 from Post import get_all_posts, get_single_post
-from categories import add_category, delete_category, get_all_categories
+from categories import add_category, delete_category, get_all_categories, update_category
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -137,6 +137,25 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single entry from the list
         if resource == "categories":
             delete_category(id)
+
+    def do_PUT(self):
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "categories":
+            success = update_category(id, post_body)
+            
+            if success:
+                self._set_headers(204)
+            else:
+                self._set_headers(404)
+
+        self.wfile.write("".encode())
 
 def main():
     """Starts the server on port 8088 using the HandleRequests class
