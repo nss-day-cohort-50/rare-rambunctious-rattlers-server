@@ -31,6 +31,10 @@ CREATE TABLE "Categories" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "label" varchar
 );
+CREATE TABLE "Tags" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "label" varchar
+);
 
 insert into 'Posts' values (null, 'fallll', '09/27/21', 'it fall', 1, 1); 
 

@@ -1,13 +1,9 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
-<<<<<<< HEAD
 from Post import get_all_posts, get_single_post, create_post
-from categories.request import add_category, get_all_categories
-=======
-from Post import get_all_posts, get_single_post
+from Tag import get_all_tags
 from categories import add_category, delete_category, get_all_categories
->>>>>>> main
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -93,8 +89,10 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_post(id)}"
                 else:
                     response = f"{get_all_posts()}"
+            elif resource == "tags":
+                response = f"{get_all_tags()}"
             elif resource == "categories":
-                    response = f"{get_all_categories()}"
+                response = f"{get_all_categories()}"
 
 
         elif len(parsed) == 3:
