@@ -3,6 +3,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
 from Post import get_all_posts, get_single_post
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
+from Post import get_all_posts, get_single_post, create_post
+from Tag import get_all_tags
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -88,6 +90,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_post(id)}"
                 else:
                     response = f"{get_all_posts()}"
+            elif resource == "tags":
+                response = f"{get_all_tags()}"
             elif resource == "categories":
                 if id is not None:
                     response = f"{get_category_by_id(id)}"
@@ -127,8 +131,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = user_login(post_body)
             elif resource == "categories":
                 res = add_category(post_body)
+            elif resource == "posts":
+                res = create_post(post_body)
             # Encode the new entry and send in response
-                self.wfile.write(res.encode())
+            self.wfile.write(res.encode())
+
 
     def do_DELETE(self):
     # Set a 204 response code
@@ -159,6 +166,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 self._set_headers(404)
 
         self.wfile.write("".encode())
+
 
 def main():
     """Starts the server on port 8088 using the HandleRequests class
