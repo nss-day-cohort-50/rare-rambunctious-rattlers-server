@@ -36,7 +36,7 @@ CREATE TABLE "Tags" (
   "label" varchar
 );
 
-insert into 'Posts' values (null, 'fallll', '09/27/21', 'it fall', 1, 1); 
+insert into 'Posts' values (null, 'David S. Pumpkins', '09/27/21', 'it fall', 1, 1); 
 
 insert into 'Categories' values (null, 'David S. Pumpkins'); 
 
