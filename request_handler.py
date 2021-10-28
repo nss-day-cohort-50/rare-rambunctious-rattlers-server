@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
-from Post import get_all_posts, get_single_post
+from Post import get_all_posts, get_single_post, create_post
 from categories.request import add_category, get_all_categories
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -123,9 +123,10 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = user_login(post_body)
             elif resource == "categories":
                 res = add_category(post_body)
+            elif resource == "posts":
+                res = create_post(post_body)
             # Encode the new entry and send in response
-                self.wfile.write(res.encode())
-
+            self.wfile.write(res.encode())
 # This function is not inside the class. It is the starting
 # point of this application.
 def main():
