@@ -115,7 +115,6 @@ def create_user(new_user):
         
         return json.dumps(res)
 
-
 # Should we pass in input from browser as param?
 def user_login(user_input): 
     with sqlite3.connect("./rare.db") as conn:

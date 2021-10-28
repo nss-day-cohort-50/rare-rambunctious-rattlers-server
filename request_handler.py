@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
 from Post import get_all_posts, get_single_post
 from Tag import get_all_tags
+from categories.request import add_category, get_all_categories
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -90,6 +91,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_posts()}"
             elif resource == "tags":
                 response = f"{get_all_tags()}"
+            elif resource == "categories":
+                response = f"{get_all_categories()}"
 
         elif len(parsed) == 3:
             ( resource, key, value ) = parsed
@@ -119,11 +122,10 @@ class HandleRequests(BaseHTTPRequestHandler):
             # function next.
             if resource == "register":
                 res = create_user(post_body)
-            # Encode the new entry and send in response
-                self.wfile.write(f"{res}".encode())
-
             elif resource == "login":
                 res = user_login(post_body)
+            elif resource == "categories":
+                res = add_category(post_body)
             # Encode the new entry and send in response
                 self.wfile.write(res.encode())
 
