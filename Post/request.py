@@ -37,7 +37,7 @@ def get_all_posts():
         left join Users u
             on p.user_id = u.id
         left join Categories c
-            on c.id = p.category_idg
+            on c.id = p.category_id
         left join Comments co
             on p.id = co.post_id
         ORDER BY cast(p.publication_date as date(1)) DESC
