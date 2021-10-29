@@ -3,9 +3,9 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from Post.request import delete_post
 from User import create_user, get_all_users, get_single_user, user_login
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
-from Post import get_all_posts, get_single_post, create_post
-from Tag import get_all_tags
 from comments import get_comments_by_post, create_comment, get_all_comments
+from Post import get_all_posts, get_single_post, create_post, delete_post
+from Tag import get_all_tags, delete_tag
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -156,6 +156,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_category(id)
         if resource == "posts":
             delete_post(id)
+        if resource == "tags":
+            delete_tag(id)
 
     def do_PUT(self):
         content_len = int(self.headers.get('content-length', 0))
