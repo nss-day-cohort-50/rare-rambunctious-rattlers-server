@@ -1,11 +1,10 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from Post.request import delete_post
 from User import create_user, get_all_users, get_single_user, user_login
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
 from comments import get_comments_by_post, create_comment, get_all_comments
 from Post import get_all_posts, get_single_post, create_post, delete_post
-from Tag import get_all_tags, delete_tag
+from Tag import get_all_tags, create_tag, delete_tag
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
@@ -136,6 +135,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = add_category(post_body)
             elif resource == "posts":
                 res = create_post(post_body)
+            elif resource == "tags":
+                res = create_tag(post_body)
             elif resource == "comments":
                 res = create_comment(post_body)
             # Encode the new entry and send in response
