@@ -3,7 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
 from comments import get_comments_by_post, create_comment, get_all_comments
-from Post import get_all_posts, get_single_post, create_post, delete_post
+from Post import get_all_posts, get_single_post, create_post, delete_post, update_post
 from Tag import get_all_tags, create_tag, delete_tag
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -171,6 +171,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "categories":
             success = update_category(id, post_body)
+            
+            if success:
+                self._set_headers(204)
+            else:
+                self._set_headers(404)
+        if resource == "posts":
+            success = update_post(id, post_body)
             
             if success:
                 self._set_headers(204)

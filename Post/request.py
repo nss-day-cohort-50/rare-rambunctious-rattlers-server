@@ -179,3 +179,37 @@ def delete_post(id):
         DELETE FROM Posts
         WHERE id = ?
         """, (id, ))
+
+
+
+def update_post(id, new_post):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        # setting the fields, telling where to update using the id that was passed in
+        db_cursor.execute("""
+        UPDATE Posts
+            SET 
+                title = ?,
+                publication_date = ?,
+                content = ?,
+                user_id = ?,
+                category_id = ?
+        WHERE id = ?
+        """, (new_post['title'], new_post['publication_date'],
+              new_post['content'], new_post['user_id'],
+              new_post['category_id'], id, ))
+            
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+        # call rowcount to see if anything changed when we call sql query
+
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True
+
