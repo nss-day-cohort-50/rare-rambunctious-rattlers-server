@@ -1,7 +1,7 @@
 import sqlite3
 import json
 import datetime
-from models import Post, User, Category
+from models import Post, User, Category, Comment
 
 def get_all_posts():
     # Open a connection to the database
@@ -27,12 +27,19 @@ def get_all_posts():
             u.username,
             u.created_on,
             u.active,
-            c.label
+            c.label,
+            co.id as comment_id,
+            co.subject,
+            co.content as comment,
+            co.user_id,
+            co.creation_date
         from Posts p
         left join Users u
             on p.user_id = u.id
         left join Categories c
             on c.id = p.category_id
+        left join Comments co
+            on p.id = co.post_id
         ORDER BY cast(p.publication_date as date(1)) DESC
         """)
 
@@ -69,10 +76,20 @@ def get_all_posts():
                 row['created_on']  
             )
 
+            comment = Comment(
+                row['comment_id'],
+                row['subject'],
+                row['comment'],
+                row['user_id'],
+                row['id'],
+                row['creation_date']
+            )
+
             category = Category(row['category_id'],
                 row['label']
             )
 
+            post.comment = comment.__dict__
             post.user = user.__dict__
             post.category = category.__dict__
             posts.append(post.__dict__)
