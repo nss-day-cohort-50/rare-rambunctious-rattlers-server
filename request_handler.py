@@ -1,8 +1,9 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from User import create_user, get_all_users, get_single_user, user_login
-from Post import get_all_posts, get_single_post, create_post, delete_post
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
+from comments import get_comments_by_post, create_comment, get_all_comments
+from Post import get_all_posts, get_single_post, create_post, delete_post
 from Tag import get_all_tags, create_tag, delete_tag
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -91,6 +92,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_posts()}"
             elif resource == "tags":
                 response = f"{get_all_tags()}"
+            elif resource == "comments":
+                response = f"{get_all_comments()}"
             elif resource == "categories":
                 if id is not None:
                     response = f"{get_category_by_id(id)}"
@@ -101,8 +104,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         elif len(parsed) == 3:
             ( resource, key, value ) = parsed
 
-            if key == "q" and resource == 'entries':
-                response = get_entries_by_search_term(value)
+            if key == "q" and resource == 'comments':
+                response = get_comments_by_post(value)
 
 
         self.wfile.write(response.encode())
@@ -134,8 +137,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = create_post(post_body)
             elif resource == "tags":
                 res = create_tag(post_body)
+            elif resource == "comments":
+                res = create_comment(post_body)
             # Encode the new entry and send in response
             self.wfile.write(res.encode())
+# This function is not inside the class. It is the starting
+# point of this application.
+
 
     def do_DELETE(self):
     # Set a 204 response code

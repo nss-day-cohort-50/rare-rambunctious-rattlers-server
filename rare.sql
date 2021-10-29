@@ -71,3 +71,19 @@ UPDATE publication_date
   UPDATE Posts SET publication_date = "2021-08-21"
 WHERE id = 4;
 
+CREATE TABLE "Comments" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "subject" varchar,
+  "content" varchar,
+  "user_id" integer,
+  "post_id" integer,
+  foreign key('user_id') references 'Users'('id'),
+  foreign key('post_id') references 'Posts'('id')
+)
+
+insert into 'Comments' values (null, 'python', 'i am so bad at python i dream of snakes made of byte strings squeezing ribcage', 1, 1, '09/27/21'); 
+
+alter table 'Comments' rename column 'creationg_date' to 'creation_date'
+
+delete from 'Comments'
+where id = 1
