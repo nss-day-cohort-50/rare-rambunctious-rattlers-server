@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from Post.request import delete_post
 from User import create_user, get_all_users, get_single_user, user_login
-from Post import get_all_posts, get_single_post
 from categories import add_category, delete_category, get_all_categories, update_category, get_category_by_id
 from Post import get_all_posts, get_single_post, create_post
 from Tag import get_all_tags
@@ -140,6 +140,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 res = create_comment(post_body)
             # Encode the new entry and send in response
             self.wfile.write(res.encode())
+# This function is not inside the class. It is the starting
+# point of this application.
 
 
     def do_DELETE(self):
@@ -152,6 +154,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single entry from the list
         if resource == "categories":
             delete_category(id)
+        if resource == "posts":
+            delete_post(id)
 
     def do_PUT(self):
         content_len = int(self.headers.get('content-length', 0))
